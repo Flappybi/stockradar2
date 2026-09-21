@@ -1,0 +1,347 @@
+.screen {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 30px 54px 34px;
+  overflow: hidden;
+  color: #f3f8f4;
+  background: #061d19;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 22%, #134c3c88 0%, transparent 53%),
+    radial-gradient(ellipse at 50% 93%, #0e403233, transparent 65%);
+}
+.rings {
+  position: absolute;
+  width: 930px;
+  aspect-ratio: 1;
+  left: 50%;
+  top: 33%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  opacity: 0.72;
+  background: repeating-radial-gradient(
+    circle,
+    transparent 0 76px,
+    #73bfa520 77px 78px,
+    transparent 79px 155px
+  );
+  mask-image: radial-gradient(circle, #000 0 50%, transparent 72%);
+}
+.rings::before,
+.rings::after {
+  content: "";
+  position: absolute;
+  background: #79c4a91a;
+}
+.rings::before {
+  width: 1px;
+  height: 100%;
+  left: 50%;
+}
+.rings::after {
+  height: 1px;
+  width: 100%;
+  top: 50%;
+}
+.sweep {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg 305deg,
+    #8ee0b409 355deg,
+    transparent 360deg
+  );
+  animation: sweep 28s linear infinite;
+}
+.rings i {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #9bf0c8;
+  box-shadow: 0 0 12px #77e4b1;
+}
+.pointOne {
+  left: 13%;
+  top: 35%;
+}
+.pointTwo {
+  left: 66%;
+  top: 23%;
+}
+.pointThree {
+  left: 89%;
+  top: 55%;
+}
+.pointFour {
+  left: 21%;
+  top: 62%;
+}
+.header,
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  font-size: 29px;
+  font-weight: 600;
+  letter-spacing: -0.7px;
+}
+.brand svg {
+  width: 43px;
+  height: 43px;
+  color: #b7f2d0;
+  stroke-width: 1.2;
+}
+.source {
+  color: #a2bdb7;
+  font-size: 16px;
+  letter-spacing: 0.35px;
+}
+.main {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 72px 0 92px;
+}
+.composition {
+  width: 100%;
+  animation: arrive 0.8s ease-out both;
+}
+.emblem {
+  display: block;
+  width: 148px;
+  height: 148px;
+  margin: 0 auto 5px;
+  color: #b9f5ce;
+  filter: drop-shadow(0 0 22px #91eeb521);
+}
+.wordmark {
+  font-size: 68px;
+  font-weight: 600;
+  letter-spacing: -2.5px;
+  line-height: 1.2;
+}
+.heading {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  font-size: clamp(44px, 4.7vw, 72px);
+  line-height: 1.04;
+  letter-spacing: -1.9px;
+  margin: 40px 0 28px;
+}
+.heading em {
+  color: #baf1cf;
+  font-weight: 400;
+}
+.description {
+  font-size: 23px;
+  line-height: 1.6;
+  color: #c4d4d1;
+  letter-spacing: 0.2px;
+}
+.enter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  min-height: 70px;
+  min-width: 318px;
+  margin-top: 43px;
+  padding: 16px 28px;
+  border: 1px solid #c5f6d5;
+  border-radius: 15px;
+  background: #bff4d1;
+  color: #092c23;
+  font-size: 21px;
+  font-weight: 500;
+  box-shadow: 0 0 34px #8beeb129;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s,
+    transform 0.2s;
+}
+.enter:hover {
+  background: #d6ffe2;
+  box-shadow: 0 0 44px #8beeb145;
+  transform: translateY(-2px);
+}
+.enter:active {
+  transform: translateY(0);
+}
+.screen :focus-visible {
+  outline: 2px solid #d2ffe4;
+  outline-offset: 6px;
+}
+.footer {
+  border-top: 1px solid #a7cbb52b;
+  padding-top: 24px;
+  color: #9bb8b1;
+  font-size: 15px;
+  letter-spacing: 0.2px;
+}
+.footer a:hover {
+  color: #d2ffe4;
+}
+@keyframes sweep {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes arrive {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (min-width: 1000px) and (min-height: 950px) {
+  .main {
+    padding-top: 140px;
+  }
+}
+@media (max-width: 700px) {
+  .screen {
+    padding: 24px 24px 22px;
+  }
+  .header {
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .brand {
+    gap: 8px;
+    font-size: 20px;
+    letter-spacing: -0.4px;
+  }
+  .brand svg {
+    width: 29px;
+    height: 29px;
+  }
+  .source {
+    font-size: 10px;
+    line-height: 1.4;
+    max-width: 84px;
+    text-align: right;
+    padding-top: 3px;
+  }
+  .main {
+    padding: 60px 0;
+  }
+  .emblem {
+    width: 104px;
+    height: 104px;
+    margin-bottom: 10px;
+  }
+  .wordmark {
+    font-size: 43px;
+    letter-spacing: -1.5px;
+  }
+  .heading {
+    font-size: clamp(29px, 8.8vw, 48px);
+    letter-spacing: -0.8px;
+    line-height: 1.14;
+    margin: 30px 0 22px;
+  }
+  .description {
+    max-width: 300px;
+    margin: 0 auto;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .enter {
+    min-width: 242px;
+    min-height: 56px;
+    margin-top: 30px;
+    border-radius: 12px;
+    font-size: 16px;
+    gap: 20px;
+    padding: 12px 24px;
+  }
+  .rings {
+    width: 680px;
+    top: 34%;
+  }
+  .footer {
+    flex-direction: column;
+    gap: 7px;
+    text-align: center;
+    font-size: 11px;
+    padding-top: 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sweep,
+  .composition {
+    animation: none;
+  }
+  .enter {
+    transition: none;
+  }
+  .enter:hover {
+    transform: none;
+  }
+}
+@media (min-width: 701px) and (max-height: 850px) {
+  .screen {
+    padding: 24px 40px;
+  }
+  .main {
+    padding: 32px 0 42px;
+  }
+  .emblem {
+    width: 104px;
+    height: 104px;
+  }
+  .wordmark {
+    font-size: 50px;
+  }
+  .heading {
+    font-size: 48px;
+    margin: 26px 0 20px;
+  }
+  .description {
+    font-size: 17px;
+  }
+  .enter {
+    min-height: 56px;
+    min-width: 270px;
+    margin-top: 28px;
+    font-size: 18px;
+    padding: 12px 24px;
+  }
+  .footer {
+    padding-top: 18px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 700px) and (max-height: 740px) {
+  .main {
+    padding: 30px 0;
+  }
+  .emblem {
+    width: 88px;
+    height: 88px;
+  }
+  .heading {
+    margin-top: 24px;
+  }
+}
