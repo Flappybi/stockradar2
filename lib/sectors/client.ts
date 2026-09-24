@@ -79,7 +79,7 @@ export class SectorsClient {
         /* Re-fetch invalid cached identity. */
       }
     }
-    for (let attempt = 0; attempt < 3; attempt++) {
+    for (let attempt = 0; attempt < 5; attempt++) {
       let response: Response;
       try {
         response = await this.request(`${BASE_URL}${path}`, {
@@ -103,7 +103,7 @@ export class SectorsClient {
           "credentials",
           "Sectors credentials rejected. Check the server API key and plan permissions.",
         );
-      if (response.status === 429 || response.status >= 500) {
+      if (response.status >= 500) {
         if (attempt < 2) {
           const retryAfter = Number(response.headers.get("retry-after"));
           await this.sleep(
@@ -114,6 +114,21 @@ export class SectorsClient {
                 Number.isFinite(retryAfter) ? retryAfter * 1_000 : 0,
               ),
             ),
+          );
+          continue;
+        }
+        throw new DataError(
+          "unavailable",
+          "Sectors market data temporarily unavailable after bounded retries.",
+        );
+      }
+      if (response.status === 429) {
+        if (attempt < 4) {
+          const retryAfter = Number(response.headers.get("retry-after"));
+          await this.sleep(
+            Number.isFinite(retryAfter) && retryAfter > 0
+              ? retryAfter * 1_000
+              : 12_000,
           );
           continue;
         }
@@ -178,6 +193,7 @@ export class SectorsClient {
     const rawRows: z.input<typeof dailySchema> = [];
     const chunks: { start: string; end: string; fetchedAt: string }[] = [];
     for (const chunk of dateChunks(start, end)) {
+      await this.sleep(300);
       const result = await this.load(
         `/daily/${symbol}/?start=${chunk.start}&end=${chunk.end}`,
         dailySchema,

@@ -153,14 +153,16 @@ export async function refreshDataset(): Promise<Dataset> {
   const now = new Date();
   const fetchedAt = now.toISOString();
   const end = fetchedAt.slice(0, 10),
-    start = new Date(now.getTime() - 399 * 86_400_000)
+    start = new Date(now.getTime() - 90 * 86_400_000)
       .toISOString()
       .slice(0, 10);
   try {
     const inputs: StockInput[] = [],
       raw: RawSource[] = [];
     for (const ticker of tickers) {
+      console.log(`Ingesting ${ticker} (${inputs.length + 1}/${tickers.length})...`);
       const report = await client.reportWithMetadata(ticker);
+      await new Promise((r) => setTimeout(r, 350));
       const daily = await client.daily(ticker, start, end);
       const sourceFetchedAt = [report.fetchedAt, daily.fetchedAt].sort()[0];
       inputs.push({
@@ -169,6 +171,7 @@ export async function refreshDataset(): Promise<Dataset> {
         marketFetchedAt: daily.fetchedAt,
       });
       raw.push({ ticker, report: report.raw, daily: daily.raw });
+      await new Promise((r) => setTimeout(r, 350));
     }
     const dataset = datasetSchema.parse({
       stocks: analyzeUniverse(inputs, fetchedAt),
