@@ -6,9 +6,37 @@ export const maxDuration = 30;
 const bodySchema = z
   .object({ ticker: z.string().regex(/^[A-Z]{4}$/) })
   .strict();
+function isAllowedOrigin(origin: string, request: Request): boolean {
+  try {
+    const originUrl = new URL(origin);
+    const reqUrl = new URL(request.url);
+    if (originUrl.origin === reqUrl.origin) return true;
+
+    const hostHeader =
+      request.headers.get("x-forwarded-host") ||
+      request.headers.get("host") ||
+      reqUrl.host;
+    if (originUrl.host === hostHeader) return true;
+
+    if (process.env.NEXT_PUBLIC_APP_URL) {
+      try {
+        const appUrl = new URL(process.env.NEXT_PUBLIC_APP_URL);
+        if (originUrl.origin === appUrl.origin || originUrl.host === appUrl.host) {
+          return true;
+        }
+      } catch {
+        // ignore malformed NEXT_PUBLIC_APP_URL
+      }
+    }
+    return false;
+  } catch {
+    return false;
+  }
+}
+
 export async function POST(request: Request) {
   const origin = request.headers.get("origin");
-  if (origin && origin !== new URL(request.url).origin)
+  if (origin && !isAllowedOrigin(origin, request))
     return Response.json({ error: "Origin not allowed." }, { status: 403 });
   let body: unknown;
   try {
