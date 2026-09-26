@@ -18,16 +18,44 @@ function isAllowedOrigin(origin: string, request: Request): boolean {
       reqUrl.host;
     if (originUrl.host === hostHeader) return true;
 
+    const secFetchSite = request.headers.get("sec-fetch-site");
+    if (secFetchSite === "cross-site") {
+      return false;
+    }
+    if (secFetchSite === "same-origin" || secFetchSite === "same-site") {
+      return true;
+    }
+
     if (process.env.NEXT_PUBLIC_APP_URL) {
       try {
         const appUrl = new URL(process.env.NEXT_PUBLIC_APP_URL);
         if (originUrl.origin === appUrl.origin || originUrl.host === appUrl.host) {
           return true;
         }
+        if (
+          originUrl.hostname.endsWith(".netlify.app") &&
+          appUrl.hostname.endsWith(".netlify.app")
+        ) {
+          const appSiteName = appUrl.hostname
+            .replace(/\.netlify\.app$/, "")
+            .split("--")
+            .pop();
+          if (appSiteName && originUrl.hostname.includes(appSiteName)) {
+            return true;
+          }
+        }
       } catch {
         // ignore malformed NEXT_PUBLIC_APP_URL
       }
     }
+
+    if (originUrl.hostname.endsWith(".netlify.app")) {
+      const siteFromOrigin = originUrl.hostname.split("--").pop();
+      if (siteFromOrigin && hostHeader.includes(siteFromOrigin)) {
+        return true;
+      }
+    }
+
     return false;
   } catch {
     return false;
