@@ -1,14 +1,14 @@
 # Verification and acceptance status
 
-Verified locally on 22 September 2026, including the welcome splash. The runnable demo is complete; authenticated external-service acceptance remains pending.
+Verified locally on 26 September 2026, including the emerald redesign, device watchlist and welcome splash. The runnable demo is complete; authenticated external-service acceptance remains pending.
 
 | Check | Result |
 |---|---|
 | `pnpm lint` | Passed, exit 0 |
 | `pnpm typecheck` | Passed, exit 0 |
-| `pnpm test --maxWorkers=1` | 96 tests passed in 10 files |
+| `pnpm test --maxWorkers=1` | 100 tests passed in 11 files, exit 0 |
 | `pnpm build` | Next.js production build passed, exit 0 |
-| `PLAYWRIGHT_CHANNEL=chrome PLAYWRIGHT_REUSE_SERVER=1 pnpm test:e2e` | 6 tests passed against the fresh production preview at desktop and mobile widths, exit 0 |
+| `PLAYWRIGHT_CHANNEL=chrome PLAYWRIGHT_REUSE_SERVER=1 pnpm test:e2e` | 12 tests passed against the fresh production preview at desktop and mobile widths, exit 0 |
 | Missing live credentials | API returns 503 with a generic message; page displays unavailable state; no synthetic fallback |
 | In-app browser | Splash and overview rendered correctly, including a compact desktop viewport |
 | Authenticated Sectors | Not verified: API key not configured |
@@ -29,6 +29,8 @@ A separate read-only review of analytics, persistence, provider boundaries and p
 The review and mocked tests do not establish authenticated provider behavior or actual PostgreSQL execution.
 
 ## Visual inspection
+
+Latest redesign: [emerald-redesign.md](emerald-redesign.md) records the selected design, visual comparison, watchlist behavior and intentional adaptations. Watchlist checks cover save/remove from stock details and screener, reload persistence, cross-tab synchronization, malformed storage, unavailable tickers and blocked writes. An initial error-message test matched Next.js's route announcer as well as the application's alert; the test was narrowed to the specific visible error, and all 12 browser tests then passed together.
 
 The welcome screen's desktop/mobile comparison and intentional differences are recorded in [splash-design.md](splash-design.md).
 

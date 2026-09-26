@@ -26,6 +26,7 @@ Open [localhost:3000](http://localhost:3000). The delivered local `.env.local` i
 
 - **Welcome:** an emerald splash with a subtle radar sweep, keyboard entry and reduced-motion support. It appears once per browser-tab session at the home entry point; `/splash` always previews it. Direct research links remain accessible.
 - **Overview:** research-universe summary, strongest measured signals, unusual activity, and source labels.
+- **Watchlist:** save and remove companies from the overview, screener or company page; review separate Signal and Anomaly Scores at `/watchlist`. Stored in this browser, synchronized across tabs, with no account or cross-device sync. Clearing browser storage removes the list.
 - **Screener:** search, sector/minimum score/coverage filters, sortable ranks, six presets and validated custom weights persisted on the device.
 - **Market Radar:** anomaly ranking, primary weighted trigger, signed Z-scores and supported component filters.
 - **Stock intelligence:** separate scores, factor decomposition, raw metrics, periods, peer evidence, price/volume charts and an on-demand research brief.

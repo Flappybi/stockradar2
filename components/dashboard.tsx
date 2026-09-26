@@ -5,12 +5,15 @@ import {
   ChartNoAxesColumnIncreasing,
   TriangleAlert,
   CalendarDays,
+  Radar,
+  Star,
 } from "lucide-react";
 import type { Dataset } from "@/lib/analytics/types";
 import { dateLabel } from "@/lib/format";
 import { Score } from "@/components/score";
 import { Button } from "@/components/ui/button";
 import { DataNotice } from "@/components/data-state";
+import { WatchlistButton } from "@/components/watchlist-button";
 export function Dashboard({ data }: { data: Dataset }) {
   const top = [...data.stocks]
     .sort((a, b) => (b.signal.score ?? -1) - (a.signal.score ?? -1))
@@ -24,17 +27,29 @@ export function Dashboard({ data }: { data: Dataset }) {
     .sort();
   return (
     <>
-      <div className="hero">
-        <h1>Find the signal behind the market.</h1>
+      <div className="hero overview-hero">
+        <div className="hero-radar" aria-hidden="true">
+          <Radar strokeWidth={0.6} />
+        </div>
+        <h1>
+          Find the signal
+          <br />
+          behind the market.
+        </h1>
         <p>
           A clearer view of Indonesian equities. Transparent signals. Unusual
           activity. Grounded research.
         </p>
-        <Button asChild className="hero-action">
-          <Link href="/screener">
-            Open screener <ArrowRight data-icon="inline-end" />
+        <div className="hero-actions">
+          <Button asChild className="hero-action">
+            <Link href="/screener">
+              Open screener <ArrowRight data-icon="inline-end" />
+            </Link>
+          </Button>
+          <Link href="/watchlist" className="hero-secondary">
+            <Star size={18} /> My watchlist
           </Link>
-        </Button>
+        </div>
       </div>
       <DataNotice data={data} />
       <section className="stat-band" aria-label="Market snapshot">
@@ -84,9 +99,12 @@ export function Dashboard({ data }: { data: Dataset }) {
         </div>
       </section>
       <div className="overview-grid">
-        <section className="panel">
+        <section className="panel signal-panel">
           <div className="panel-heading">
-            <h2>Top signals</h2>
+            <h2>
+              <ChartNoAxesColumnIncreasing size={21} />
+              Top signals
+            </h2>
             <Link className="text-link" href="/screener">
               View all <ArrowRight />
             </Link>
@@ -94,7 +112,9 @@ export function Dashboard({ data }: { data: Dataset }) {
           <table className="data-table">
             <thead>
               <tr>
-                <th>#</th>
+                <th>
+                  <span className="sr-only">Watchlist</span>
+                </th>
                 <th>Company</th>
                 <th className="numeric">Signal</th>
                 <th className="numeric hide-mobile">Quality</th>
@@ -103,16 +123,23 @@ export function Dashboard({ data }: { data: Dataset }) {
               </tr>
             </thead>
             <tbody>
-              {top.map((s, i) => (
+              {top.map((s) => (
                 <tr key={s.input.ticker}>
-                  <td className="muted">{i + 1}</td>
+                  <td className="favorite-cell">
+                    <WatchlistButton ticker={s.input.ticker} />
+                  </td>
                   <td>
                     <Link
-                      className="company-cell"
+                      className="company-identity"
                       href={`/stock/${s.input.ticker}`}
                     >
-                      <span className="ticker">{s.input.ticker}</span>
-                      <span className="company-name">{s.input.name}</span>
+                      <span className="company-monogram" aria-hidden="true">
+                        {s.input.ticker.slice(0, 2)}
+                      </span>
+                      <span className="company-cell">
+                        <span className="ticker">{s.input.ticker}</span>
+                        <span className="company-name">{s.input.name}</span>
+                      </span>
                     </Link>
                   </td>
                   <td className="numeric">
@@ -137,9 +164,12 @@ export function Dashboard({ data }: { data: Dataset }) {
             </div>
           ) : null}
         </section>
-        <section className="panel">
+        <section className="panel radar-panel">
           <div className="panel-heading">
-            <h2>Market radar</h2>
+            <h2>
+              <Radar size={22} />
+              Market radar
+            </h2>
             <Link href="/radar" className="text-link">
               View all <ArrowRight />
             </Link>

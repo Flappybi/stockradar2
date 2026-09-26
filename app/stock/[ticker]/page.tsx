@@ -15,6 +15,7 @@ import { Score } from "@/components/score";
 import { DataNotice, DataUnavailable } from "@/components/data-state";
 import { MarketHistory } from "@/components/charts/market-history";
 import { ResearchBrief } from "@/components/stock/brief";
+import { WatchlistButton } from "@/components/watchlist-button";
 export async function generateMetadata({
   params,
 }: {
@@ -49,7 +50,10 @@ export default async function Page({
       </Link>
       <div className="stock-header">
         <div>
-          <h1 className="ticker-title">{ticker}</h1>
+          <div className="stock-title-row">
+            <h1 className="ticker-title">{ticker}</h1>
+            <WatchlistButton ticker={ticker} expanded />
+          </div>
           <h2>{s.input.name}</h2>
           <p className="small muted mt-2">
             {[s.input.sector, s.input.subsector].filter(Boolean).join(" / ") ||

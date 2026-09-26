@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Shell } from "@/components/layout/shell";
 import "./globals.css";
+import "./emerald.css";
 export const metadata: Metadata = {
   title: {
     default: "StockRadar — Find the signal behind the market",

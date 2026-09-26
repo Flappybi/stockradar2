@@ -13,6 +13,7 @@ import { combineFactors, PRESETS } from "@/lib/analytics/engine";
 import { percent } from "@/lib/format";
 import { Score } from "@/components/score";
 import { Button } from "@/components/ui/button";
+import { WatchlistButton } from "@/components/watchlist-button";
 const weightSchema = z
   .object({
     quality: z.number().min(0).max(100),
@@ -268,7 +269,9 @@ export function Screener({ stocks }: { stocks: ScreenerStock[] }) {
           <table className="data-table" aria-label="Stock rankings">
             <thead>
               <tr>
-                <th className="hide-mobile">#</th>
+                <th>
+                  <span className="sr-only">Watchlist</span>
+                </th>
                 <th>
                   <button
                     className="sort-button"
@@ -300,9 +303,11 @@ export function Screener({ stocks }: { stocks: ScreenerStock[] }) {
               </tr>
             </thead>
             <tbody>
-              {rows.map((s, i) => (
+              {rows.map((s) => (
                 <tr key={s.input.ticker}>
-                  <td className="hide-mobile muted">{i + 1}</td>
+                  <td className="favorite-cell">
+                    <WatchlistButton ticker={s.input.ticker} />
+                  </td>
                   <td>
                     <Link
                       href={`/stock/${s.input.ticker}`}

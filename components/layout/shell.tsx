@@ -11,11 +11,13 @@ import {
   Layers,
   Search,
   Database,
+  Star,
 } from "lucide-react";
 const NAV = [
   { href: "/", label: "Overview", icon: House },
   { href: "/screener", label: "Screener", icon: SlidersHorizontal },
   { href: "/radar", label: "Market Radar", icon: Radar },
+  { href: "/watchlist", label: "Watchlist", icon: Star },
   { href: "/methodology", label: "Methodology", icon: FileText },
 ];
 type SearchStock = { ticker: string; name: string; sector: string | null };
@@ -72,6 +74,8 @@ export function Shell({
                 key={n.href}
                 className={pathname === n.href ? "active" : ""}
                 aria-current={pathname === n.href ? "page" : undefined}
+                aria-label={n.label}
+                title={n.label}
               >
                 <n.icon />
                 <span>{n.label}</span>
