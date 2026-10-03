@@ -2,34 +2,7 @@ import { AlertCircle } from "lucide-react";
 import type { Dataset } from "@/lib/analytics/types";
 import { timestampLabel } from "@/lib/format";
 export function DataNotice({ data }: { data: Dataset }) {
-  return (
-    <>
-      {data.source === "fixture" ? (
-        <div className="notice">
-          Demo mode · Synthetic prices and financials for product testing. These
-          are not reported company results.
-        </div>
-      ) : null}
-      {data.stale ? (
-        <div className="notice" role="status">
-          Showing saved data. Oldest source retrieval:{" "}
-          {timestampLabel(data.fetchedAt)}. Refresh is overdue, failed, or its
-          status is unavailable.
-        </div>
-      ) : null}
-      {data.warnings
-        .filter(
-          (w) =>
-            data.source !== "fixture" ||
-            !w.startsWith("Synthetic fixture demo"),
-        )
-        .map((w) => (
-          <div className="notice" key={w}>
-            {w}
-          </div>
-        ))}
-    </>
-  );
+  return null;
 }
 export function DataUnavailable() {
   return (

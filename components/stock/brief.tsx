@@ -41,12 +41,8 @@ export function ResearchBrief({
           <>
             <p className="small muted mb-4">
               {result.provider === "gemini"
-                ? "AI-generated explanation"
-                : "Deterministic research brief"}{" "}
-              ·{" "}
-              {result.provider === "gemini"
-                ? result.model
-                : "Template fallback — Gemini unavailable"}
+                ? `AI-generated explanation · ${result.model}`
+                : "Deterministic research brief"}
               {result.cached ? " · Cached" : ""}
             </p>
             <p className="brief-lead">{result.brief.summary}</p>
