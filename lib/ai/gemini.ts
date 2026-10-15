@@ -39,7 +39,7 @@ export class GeminiExplanationProvider implements ExplanationProvider {
             : ""),
         abortSignal: options.signal,
         responseMimeType: "application/json",
-        responseJsonSchema: z.toJSONSchema(stockResearchBriefSchema),
+        responseSchema: stockResearchBriefSchema,
         temperature: 0.2,
         maxOutputTokens: 2200,
       },
